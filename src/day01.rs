@@ -1,4 +1,3 @@
-use regex::Regex;
 use std::fs;
 
 
@@ -77,7 +76,6 @@ fn part2(input: &str) -> u32 {
     for  line in input.split("\n") {
         let mut first: Option<u32> = None;
         let mut last: Option<u32> = None;
-        let re = Regex::new(r"(one|two|three|four|five|six|seven|eight|nine|\d)").unwrap();
         for i in 0..line.len() {
             let res = to_num(&line[i..]);
             if res != None {

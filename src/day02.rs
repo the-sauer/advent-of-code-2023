@@ -11,7 +11,7 @@ use core::panic;
 use std::fs;
 
 #[derive(Debug, PartialEq)]
-enum DiceColor {
+enum CubeColor {
     Red,
     Green,
     Blue,
@@ -19,7 +19,7 @@ enum DiceColor {
 #[derive(Debug)]
 struct Game {
     game_id: u32,
-    hands: Vec<Vec<(u32, DiceColor)>>
+    hands: Vec<Vec<(u32, CubeColor)>>
 }
 
 
@@ -29,7 +29,7 @@ fn main() {
     print!("Part1: {}\n", part2(&input));
 }
 
-fn hand_parser(input: &str) -> IResult<&str, Vec<Vec<(u32, DiceColor)>>> {
+fn hand_parser(input: &str) -> IResult<&str, Vec<Vec<(u32, CubeColor)>>> {
     separated_list1(
         tuple((char(';'), space0)), 
         separated_list1(
@@ -44,12 +44,12 @@ fn hand_parser(input: &str) -> IResult<&str, Vec<Vec<(u32, DiceColor)>>> {
     
 }
 
-fn color_parser(input: &str) -> IResult<&str, DiceColor> {
+fn color_parser(input: &str) -> IResult<&str, CubeColor> {
     let (input, cstring) = alt((tag("red"), tag("blue"), tag("green")))(input)?;
     match cstring {
-        "red" => Ok((input, DiceColor::Red)),
-        "green" => Ok((input, DiceColor::Green)),
-        "blue" => Ok((input, DiceColor::Blue)),
+        "red" => Ok((input, CubeColor::Red)),
+        "green" => Ok((input, CubeColor::Green)),
+        "blue" => Ok((input, CubeColor::Blue)),
         _ => panic!("Unrecognised color {}\n", cstring)
     }
 }
@@ -72,10 +72,10 @@ fn parse_input(input: &str) -> Vec<Game> {
 }
 
 fn part1(input: &str) -> u32 {
-    fn possible (hands: Vec<Vec<(u32, DiceColor)>>) -> bool {
+    fn possible (hands: Vec<Vec<(u32, CubeColor)>>) -> bool {
         for hand in hands {
-            for (num, diceColor) in hand {
-                if diceColor == DiceColor::Red && num > 12 || diceColor == DiceColor::Green && num > 13 || diceColor == DiceColor::Blue && num > 14 {
+            for (num, cube_color) in hand {
+                if cube_color == CubeColor::Red && num > 12 || cube_color == CubeColor::Green && num > 13 || cube_color == CubeColor::Blue && num > 14 {
                     return false;
                 }
             }
@@ -102,12 +102,12 @@ fn part2(input: &str) -> u32 {
         let mut min_b: u32 = 0;
 
         for hand in game.hands {
-            for (num, diceColor) in hand {
-                if diceColor == DiceColor::Red {
+            for (num, cube_color) in hand {
+                if cube_color == CubeColor::Red {
                     min_r = if num > min_r { num } else { min_r }
-                } else if diceColor == DiceColor::Green {
+                } else if cube_color == CubeColor::Green {
                     min_g = if num > min_g { num } else { min_g }
-                } else if diceColor == DiceColor::Blue {
+                } else if cube_color == CubeColor::Blue {
                     min_b = if num > min_b { num } else { min_b }
                 }
             }

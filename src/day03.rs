@@ -7,7 +7,7 @@ use regex::Regex;
 fn main() {
     let input = fs::read_to_string("data/day03.txt").expect("Unable to open data/day03.txt");
     print!("Part1: {}\n", part1(&input));
-    print!("Part1: {}\n", part2(&input));
+    print!("Part2: {}\n", part2(&input));
 }
 
 fn exists_special_char(line: &str, range: Range<usize>) -> bool {

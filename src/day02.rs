@@ -26,7 +26,7 @@ struct Game {
 fn main() {
     let input = fs::read_to_string("data/day02.txt").expect("Unable to open data/day02.txt");
     print!("Part1: {}\n", part1(&input));
-    print!("Part1: {}\n", part2(&input));
+    print!("Part2: {}\n", part2(&input));
 }
 
 fn hand_parser(input: &str) -> IResult<&str, Vec<Vec<(u32, CubeColor)>>> {

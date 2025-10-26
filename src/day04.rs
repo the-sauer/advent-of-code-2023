@@ -5,7 +5,7 @@ use nom::{bytes::complete::tag, character::complete::{space1, digit1, char, spac
 fn main() {
     let input = fs::read_to_string("data/day04.txt").expect("Unable to open data/day04.txt");
     print!("Part1: {}\n", part1(&input));
-    print!("Part1: {}\n", part2(&input));
+    print!("Part2: {}\n", part2(&input));
 }
 
 fn parse_line(input: &str) -> IResult<&str, (u32, Vec<u32>, Vec<u32>)> {

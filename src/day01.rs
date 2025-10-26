@@ -4,7 +4,7 @@ use std::fs;
 fn main() {
     let input = fs::read_to_string("data/day01.txt").expect("Unable to open data/day01.txt");
     print!("Part1: {}\n", part1(&input));
-    print!("Part1: {}\n", part2(&input));
+    print!("Part2: {}\n", part2(&input));
 }
 
 fn part1(input: &str) -> u32 {

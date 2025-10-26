@@ -1,5 +1,6 @@
 use std::{fs, ops::Range};
 
+use itertools::Itertools;
 use regex::Regex;
 
 
@@ -37,8 +38,46 @@ fn part1(input: &str) -> u32 {
     sum
 }
 
-fn part2(_input: &str) -> u32 {
-    0
+fn parse_number_at(lines: &Vec<Vec<char>>, index: &(usize, usize)) -> u32 {
+    let mut j_end = index.1 + 1;
+    while j_end < lines[index.0].len() && lines[index.0][j_end].is_ascii_digit() {
+        j_end += 1;
+    }
+    let number_str: String = (lines[index.0][index.1..j_end]).into_iter().collect();
+    number_str.parse::<u32>().expect(&format!("Failed to parse \"{}\" as number", number_str))
+}
+
+fn find_number_begin(lines: &Vec<Vec<char>>, index: &(usize, usize)) -> Option<(usize, usize)> {
+    if !lines[index.0][index.1].is_ascii_digit() {
+        return Option::None;
+    }
+    let mut j_begin = index.1;
+    while j_begin > 0 && lines[index.0][j_begin-1].is_ascii_digit() {
+        j_begin -= 1;
+    }
+    return Option::Some((index.0, j_begin));
+}
+
+fn part2(input: &str) -> u32 {
+    let lines: Vec<Vec<char>> = input.split("\n").map(|line| line.chars().collect()).collect();
+    let mut sum = 0;
+    for i in 0..lines.len() {
+        for j in 0..lines[i].len() {
+            if lines[i][j] == '*' {
+                let window = [(i-1, j-1), (i-1, j), (i-1, j+1), (i, j-1), (i, j+1), (i+1, j-1), (i+1, j), (i+1, j+1)];
+                let indices: Vec<(usize, usize)> = window
+                    .iter()
+                    .filter(|(a,b)| a >= &(0 as usize) && a < &lines.len() && b >= &(0 as usize) && b < &lines[*a].len())
+                    .filter_map(|index| find_number_begin(&lines, index))
+                    .unique()
+                    .collect();
+                if indices.len() == 2 {
+                    sum += parse_number_at(&lines, &indices[0]) * parse_number_at(&lines, &indices[1]);
+                }
+            }
+        }
+    }
+    sum
 }
 
 #[test]
@@ -58,6 +97,15 @@ fn test_part1() {
 
 #[test]
 fn test_part2() {
-    let input = "";
-    assert_eq!(part2(&input), 0);
+    let input = "467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..";
+    assert_eq!(part2(&input), 467835);
 }

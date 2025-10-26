@@ -26,5 +26,6 @@ path = "src/day04.rs"
 test = true
 
 [dependencies]
+itertools = "0.14.0"
 nom = "7.1.3"
 regex = "1.10.2"

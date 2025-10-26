@@ -4,7 +4,7 @@ use regex::Regex;
 
 
 fn main() {
-    let input = fs::read_to_string("data/day02.txt").expect("Unable to open data/day01.txt");
+    let input = fs::read_to_string("data/day03.txt").expect("Unable to open data/day03.txt");
     print!("Part1: {}\n", part1(&input));
     print!("Part1: {}\n", part2(&input));
 }
